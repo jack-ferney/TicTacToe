@@ -10,6 +10,8 @@ char board[3][3] = {
 
 bool gameOver = false;
 
+int drawChecker = 0;
+
 string lastPlayer = " ";
 
 void printBoard() {
@@ -21,6 +23,7 @@ void printBoard() {
 }
 
 void checkGame() {
+    drawChecker = 0;
     for (int i = 0; i < 3; i++) {
         if (board[i][0] == board[i][1] & board[i][1] == board[i][2] & board[i][0] != ' ') {
             gameOver = true;
@@ -35,6 +38,16 @@ void checkGame() {
         gameOver = true;
     }
     if (board[0][2] == board[1][1] & board[1][1] == board[2][0] & board[0][2] != ' ') {
+        gameOver = true;
+    }
+    for (int i = 0; i < 3; i++) {
+		for (int k = 0; k < 3; k++) {
+			if (board[i][k] != ' ') {
+                drawChecker++;
+			}
+		}
+	}
+    if (drawChecker == 9) {
         gameOver = true;
     }
 }
@@ -81,12 +94,16 @@ int main() {
 
     printBoard();
     while (!gameOver) {
-        OTurn();
+        XTurn();
         if (gameOver) {
             break;
         }
-        XTurn();
+        OTurn();
     }
-    cout << "\n\n" + lastPlayer + " is the winner!!!\n\n";
+    if (drawChecker == 9) {
+        cout << "\n\nDraw... No winner!";
+    } else {
+        cout << "\n\n" + lastPlayer + " is the winner!!!\n\n";
+    }
     return 0;
 }
